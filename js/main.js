@@ -1,29 +1,69 @@
-const player = (name, points, wins) => {
-    return {name, points, wins};
+const Player = (name, wins) => {
+    return {name, wins};
 };
 
+const playerCreation = (() => {
+    const playerOneInput = document.querySelector('#playerOne');
+    const playerTwoInput = document.querySelector('#playerTwo');
+    const startButton = document.querySelector('.startGame');
+    let firstPlayer;
+    let secondPlayer;
+    const createPlayer = (e) => {
+        if(playerOneInput.value === "" && playerTwoInput.value === "") {
+            alert('Input the players names!');
+            return;
+        }
+
+        firstPlayer = Player(playerOneInput.value, 0);
+        secondPlayer = Player(playerTwoInput.value, 0);
+
+        e.preventDefault();
+    };
+
+    startButton.addEventListener('click', createPlayer);
+
+    return{
+    get firstPlayer() {
+        return firstPlayer;
+    },
+    get secondPlayer() {
+        return secondPlayer;
+    },
+    createPlayer
+    };
+})();
+
 const displayController = (() => {
-    let counter = 0;
+    let gameMoves = 0;
     const gameCells = document.querySelectorAll('.gameCell');
     const drawChoice = (e) => {
         let index = e.target.dataset;
         let choice = document.createElement('div');
-        if (e.target.textContent !== '') return;
-        if(counter % 2){
+        if (e.target.textContent !== '') return; // If the clicked cell is not empty
+        // Check if the counter is even or odd as it's a turn-based game mode
+        if(gameMoves % 2){
             choice.textContent = 'O'
-            gameBoard.gameArray[index.cellnumber] = -1;
+            gameBoard.gameArray[index.cellnumber] = -1; // Change element in array with the number representing each symbol
         } else {
             choice.textContent = 'X'
             gameBoard.gameArray[index.cellnumber] = 1;
         }
+        gameBoard.checkWinner();
         e.target.appendChild(choice);
-        counter++
+        gameMoves++
     };
     gameCells.forEach(x => x.addEventListener('click', drawChoice))
+    return{
+        gameCells,
+        get gameMoves() {
+            return gameMoves;
+        }
+    };
 })();
 
 const gameBoard = (() => {
-    const gameArray = [0,1,2,3,4,5,6,7,8];
+    let tieResult;
+    const gameArray = [10,11,12,13,14,15,16,17,18];
     const winningCombinations = [
         [0,1,2],
         [3,4,5],
@@ -38,13 +78,21 @@ const gameBoard = (() => {
         for (const combination of winningCombinations) {
             const [a, b, c] = combination;
             if (gameArray[a] && gameArray[a] === gameArray[b] && gameArray[a] === gameArray[c]) {
+                if(gameArray[a] === 1){
+                    console.log('x wins')
+                } else if(gameArray[a] === -1){
+                    console.log('O wins')
+                }
                 return gameArray[a]; // Return the winning player symbol (1 for 'X' or -1 for 'O')
             }
         }
-        return null; // If there is no winner
-    }
+        displayController.gameMoves === 9 ? tieResult = false : tieResult = true;
+    };
     return {
         gameArray,
-        checkWinner
+        checkWinner,
+        get tieResult() {
+            return tieResult;
+        }
     };
 })();
