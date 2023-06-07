@@ -3,11 +3,14 @@ const Player = (name, wins) => {
 };
 
 const playerCreation = (() => {
+    const gameSection = document.querySelector('.gameSection');
+    const gameConfig = document.querySelector('.gameConfig');
     const playerOneInput = document.querySelector('#playerOne');
     const playerTwoInput = document.querySelector('#playerTwo');
     const startButton = document.querySelector('.startGame');
     let firstPlayer;
     let secondPlayer;
+
     const createPlayer = (e) => {
         if(playerOneInput.value === "" && playerTwoInput.value === "") { // Form validation. Can't leave the fields empty
             alert('Input the players names!');
@@ -16,6 +19,8 @@ const playerCreation = (() => {
 
         firstPlayer = Player(playerOneInput.value, 0); // Create player objects with the value of the name fields
         secondPlayer = Player(playerTwoInput.value, 0);
+        gameSection.style.visibility = 'visible'
+        gameConfig.style.visibility = 'hidden'
 
         e.preventDefault();
     };
@@ -28,8 +33,7 @@ const playerCreation = (() => {
     },
     get secondPlayer() {
         return secondPlayer;
-    },
-    createPlayer
+    }
     };
 })();
 
@@ -38,11 +42,12 @@ const displayController = (() => {
     const gameCells = document.querySelectorAll('.gameCell');
 
     const drawChoice = (e) => {
+        if (gameBoard.gameWinnerContainer.hasChildNodes()) return;
         if (playerCreation.firstPlayer === undefined || playerCreation.secondPlayer === undefined){
             alert('Input the players names!');
             return;
         }
-        
+
         let index = e.target.dataset;
         let choice = document.createElement('div');
         if (e.target.textContent !== '') return; // If the clicked cell is not empty
@@ -57,7 +62,7 @@ const displayController = (() => {
         
         gameBoard.checkWinner();
         e.target.appendChild(choice);
-        gameMoves++
+        gameMoves++;
     };
 
     gameCells.forEach(x => x.addEventListener('click', drawChoice));
@@ -66,12 +71,16 @@ const displayController = (() => {
         gameCells,
         get gameMoves() {
             return gameMoves;
-        }
+          },
+          set gameMoves(value) {
+            gameMoves = value;
+          }
     };
 })();
 
 const gameBoard = (() => {
     let tieResult;
+    const gameWinnerContainer = document.querySelector('.gameWinnerContainer');
     const xPoints = document.querySelector('.xPoints');
     const oPoints = document.querySelector('.oPoints');
     const gameArray = [10,11,12,13,14,15,16,17,18];
@@ -91,11 +100,13 @@ const gameBoard = (() => {
             const [a, b, c] = combination;
             if (gameArray[a] && gameArray[a] === gameArray[b] && gameArray[a] === gameArray[c]) {
                 if(gameArray[a] === 1){
-                    playerCreation.firstPlayer.wins = 1
+                    playerCreation.firstPlayer.wins++;
                     drawScoreBoard();
+                    displayWinner(playerCreation.firstPlayer.name);
                 } else if(gameArray[a] === -1){
-                    playerCreation.secondPlayer.wins = 1
+                    playerCreation.secondPlayer.wins++;
                     drawScoreBoard();
+                    displayWinner(playerCreation.secondPlayer.name);
                 }
                 return gameArray[a]; // Return the winning player symbol (1 for 'X' or -1 for 'O')
             }
@@ -110,9 +121,29 @@ const gameBoard = (() => {
         if (playerCreation.secondPlayer.wins === 0){
             oPoints.textContent = '-';
         } else oPoints.textContent = playerCreation.secondPlayer.wins;
+    };
+
+    const displayWinner = (winner) => {
+        const gameWinner = document.createElement('div');
+        gameWinner.classList.add('gameWinner');
+        gameWinner.textContent = `${winner} Winner!`;
+        gameWinnerContainer.append(gameWinner);
+    };
+
+    const restartRound = () => {
+        arrayCounter = 10;
+        displayController.gameMoves = 0;
+        displayController.gameCells.forEach(x => x.textContent = '');
+        gameWinnerContainer.removeChild(gameWinnerContainer.firstChild);
+        for (let i = 0; i < gameArray.length; i++){
+            gameArray[i] = arrayCounter++;
+        }
     }
 
+    gameWinnerContainer.addEventListener('click', restartRound);
+
     return {
+        gameWinnerContainer,
         gameArray,
         checkWinner,
         get tieResult() {

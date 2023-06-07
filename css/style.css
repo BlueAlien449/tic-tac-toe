@@ -2,15 +2,26 @@
     display: grid;
     grid-template-columns: repeat(3, 150px);
 }
+
 .gameCell{
     border: solid 1px black;
     width: 150px;
     height: 150px;
 }
+
 .scoreBoard{
     display: flex;
     padding: 10px;
 }
+
 .p1Points, .p2Points{
     margin: 0 10px;
+}
+
+.gameSection{
+    visibility: hidden;
+}
+
+.gameConfig{
+    visibility: visible;
 }
