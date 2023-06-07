@@ -7,3 +7,10 @@
     width: 150px;
     height: 150px;
 }
+.scoreBoard{
+    display: flex;
+    padding: 10px;
+}
+.p1Points, .p2Points{
+    margin: 0 10px;
+}
