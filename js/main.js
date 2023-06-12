@@ -60,9 +60,9 @@ const displayController = (() => {
             gameBoard.gameArray[index.cellnumber] = 1;
         }
         
-        gameBoard.checkWinner();
         e.target.appendChild(choice);
         gameMoves++;
+        gameBoard.checkWinner();
     };
 
     gameCells.forEach(x => x.addEventListener('click', drawChoice));
@@ -111,7 +111,10 @@ const gameBoard = (() => {
                 return gameArray[a]; // Return the winning player symbol (1 for 'X' or -1 for 'O')
             }
         }
-        displayController.gameMoves === 9 ? tieResult = false : tieResult = true; // Check if it's a tie
+        if (displayController.gameMoves === 9) { // Check if it's a tie
+            tieResult = true;
+            displayWinner("It's a tie!");
+          }
     };
 
     const drawScoreBoard = () => {
@@ -126,12 +129,17 @@ const gameBoard = (() => {
     const displayWinner = (winner) => {
         const gameWinner = document.createElement('div');
         gameWinner.classList.add('gameWinner');
-        gameWinner.textContent = `${winner} Winner!`;
+        if (tieResult){
+            gameWinner.textContent = winner;
+        } else {
+            gameWinner.textContent = `${winner} Winner!`;
+        }
         gameWinnerContainer.append(gameWinner);
     };
 
     const restartRound = () => {
         arrayCounter = 10;
+        tieResult = undefined;
         displayController.gameMoves = 0;
         displayController.gameCells.forEach(x => x.textContent = '');
         gameWinnerContainer.removeChild(gameWinnerContainer.firstChild);
