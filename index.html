@@ -6,36 +6,40 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>Tic-Tac-Toe</h1>
-    <section class="gameConfig">
-        <form action="">
-            <label for="playerOne">Player 1:</label>
-            <input type="text" id="playerOne" name="playerOne">
-
-            <label for="playerTwo">Player 2:</label>
-            <input type="text" id="playerTwo" name="playerTwo">
-
-            <button class="startGame">Start Game</button>
-        </form>
-    </section>
-    <section class="gameSection">
-        <section class="scoreBoard">
-            <div class="p1Points">X <span class="xPoints">-</span></div>
-            <div class="p2Points">O <span class="oPoints">-</span></div>
+    <main>
+        <h1 class="title">Tic-Tac-Toe</h1>
+        <section class="gameConfig">
+            <form action="">
+                    <div class="playerOneGroup">
+                        <label for="playerOne">Player 1:</label>
+                        <input type="text" id="playerOne" name="playerOne">
+                    </div>
+                    <div class="playerTwoGroup">
+                        <label for="playerTwo">Player 2:</label>
+                        <input type="text" id="playerTwo" name="playerTwo">
+                    </div>
+                <button class="startGame">Start Game</button>
+            </form>
         </section>
-        <div class="gameWinnerContainer"></div>
-        <section class="gameBoard">
-            <div data-cellnumber = "0" class="gameCell"></div>
-            <div data-cellnumber = "1" class="gameCell"></div>
-            <div data-cellnumber = "2" class="gameCell"></div>
-            <div data-cellnumber = "3" class="gameCell"></div>
-            <div data-cellnumber = "4" class="gameCell"></div>
-            <div data-cellnumber = "5" class="gameCell"></div>
-            <div data-cellnumber = "6" class="gameCell"></div>
-            <div data-cellnumber = "7" class="gameCell"></div>
-            <div data-cellnumber = "8" class="gameCell"></div>
+        <section class="gameSection">
+            <section class="scoreBoard">
+                <div class="p1Points">X <span class="xPoints">-</span></div>
+                <div class="p2Points">O <span class="oPoints">-</span></div>
+            </section>
+            <div class="gameWinnerContainer"></div>
+            <section class="gameBoard">
+                <div data-cellnumber = "0" class="gameCell borderBottom borderRight"></div>
+                <div data-cellnumber = "1" class="gameCell borderBottom borderRight"></div>
+                <div data-cellnumber = "2" class="gameCell borderBottom"></div>
+                <div data-cellnumber = "3" class="gameCell borderBottom borderRight"></div>
+                <div data-cellnumber = "4" class="gameCell borderBottom borderRight"></div>
+                <div data-cellnumber = "5" class="gameCell borderBottom"></div>
+                <div data-cellnumber = "6" class="gameCell borderRight"></div>
+                <div data-cellnumber = "7" class="gameCell borderRight"></div>
+                <div data-cellnumber = "8" class="gameCell"></div>
+            </section>
         </section>
-    </section>
+    </main>
 </body>
 <script src="/js/main.js"></script>
 </html>

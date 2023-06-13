@@ -1,12 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;700;800;900&display=swap');
+
+*{
+    background-color: #14bdac;
+    color: #242424;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    appearance: none;
+}
+
+main{
+    padding: 50px;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    place-content: center;
+}
+
+h1{
+    font-size: 42px;
+}
+
+input {
+   background-color: white;
+   border: 1px solid #f2ebd3;
+   border-radius: 15px;
+   font-size: 18px;
+   font-weight: 500;
+   padding: 8px;
+}
+
+.playerOneGroup{
+    display: flex;
+    flex-direction: column;
+    grid-column: 1;
+}
+
+.playerTwoGroup{   
+    display: flex;
+    flex-direction: column; 
+    grid-column: 2;
+}
+
+form > button {
+    background-color: #f2ebd3;
+    border: none;
+    border-radius: 15px;
+    font-size: 21px;
+    font-weight: 600;
+    grid-column: 1 / span 2;
+    padding: 10px;
+}
+
+form > button:hover{
+    background-color: #dad3bd;
+    cursor: pointer;
+}
+
+label {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+form{
+    display: grid;
+    gap: 25px;
+    grid-template-columns: 1fr 1fr;
+    place-items: center;
+}
+
+.title{
+    text-align: center;
+}
+
 .gameBoard{
     display: grid;
     grid-template-columns: repeat(3, 150px);
+    grid-template-rows: repeat(3, 150px);
 }
 
 .gameCell{
-    border: solid 1px black;
-    width: 150px;
-    height: 150px;
+    display: grid;
+    place-content: center;
+}
+
+.borderBottom{
+    border-bottom: 0.2em solid black;
+}
+
+.borderRight{
+    border-right: 0.2em solid black;
 }
 
 .scoreBoard{
@@ -17,7 +99,7 @@
 .p1Points, .p2Points{
     margin: 0 10px;
 }
-
+/*
 .gameSection{
     visibility: hidden;
 }
