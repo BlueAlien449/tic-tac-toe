@@ -1,4 +1,4 @@
-const Player = (name, wins, symbol) => {
+const Player = (name, wins, symbol, reset) => {
     return {name, wins, symbol};
 };
 
@@ -35,6 +35,7 @@ const playerCreation = (() => {
         return secondPlayer;
     },
     gameSection,
+    gameConfig
     };
 })();
 
@@ -85,6 +86,7 @@ const displayController = (() => {
 
 const gameBoard = (() => {
     let tieResult;
+    const clearButton = document.querySelector('.restartButton');
     const gameBoardCells = document.querySelectorAll('.gameCell');
     const gameWinnerContainer = document.querySelector('.gameWinnerContainer');
     const xPoints = document.querySelector('.xPoints');
@@ -160,14 +162,26 @@ const gameBoard = (() => {
         tieResult = undefined;
         displayController.gameMoves = 0;
         displayController.gameCells.forEach(x => x.textContent = '');
-        gameWinnerContainer.removeChild(gameWinnerContainer.firstChild);
+        if(gameWinnerContainer.hasChildNodes()){
+            gameWinnerContainer.removeChild(gameWinnerContainer.firstChild);
+        }
         for (let i = 0; i < gameArray.length; i++){
             gameArray[i] = arrayCounter++;
         }
         gameBoardCells.forEach(x => x.style.display = 'grid')
-    }
+    };
 
     gameWinnerContainer.addEventListener('click', restartRound);
+
+    const clearGame = () => {
+        restartRound();
+        xPoints.textContent = '-';
+        oPoints.textContent = '-';
+        playerCreation.gameSection.style.display = 'none';
+        playerCreation.gameConfig.style.display = 'block';
+    };
+
+    clearButton.addEventListener('click', clearGame);
 
     return {
         gameWinnerContainer,
