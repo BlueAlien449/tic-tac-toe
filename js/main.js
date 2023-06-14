@@ -19,8 +19,8 @@ const playerCreation = (() => {
 
         firstPlayer = Player(playerOneInput.value, 0); // Create player objects with the value of the name fields
         secondPlayer = Player(playerTwoInput.value, 0);
-        gameSection.style.visibility = 'visible'
-        gameConfig.style.visibility = 'hidden'
+        gameSection.style.display = 'block'
+        gameConfig.style.display = 'none'
 
         e.preventDefault();
     };
@@ -39,6 +39,8 @@ const playerCreation = (() => {
 
 const displayController = (() => {
     let gameMoves = 0;
+    const xSvg = '<svg viewBox="0 0 128 128"><path class="svgImg xSvg" d="M16,16L112,112"></path><path class="svgImg xSvg" d="M112,16L16,112"></path></svg>';
+    const oSvg = '<svg viewBox="0 0 128 128"><path class="svgImg oSvg" d="M64,16A48,48 0 1,0 64,112A48,48 0 1,0 64,16"></path></svg>';
     const gameCells = document.querySelectorAll('.gameCell');
 
     const drawChoice = (e) => {
@@ -50,13 +52,13 @@ const displayController = (() => {
 
         let index = e.target.dataset;
         let choice = document.createElement('div');
-        if (e.target.textContent !== '') return; // If the clicked cell is not empty
+        if (e.target.innerHTML !== '') return; // If the clicked cell is not empty
 
         if(gameMoves % 2){ // Check if the counter is even or odd as it's a turn-based game mode
-            choice.textContent = 'O'
+            choice.innerHTML = oSvg;
             gameBoard.gameArray[index.cellnumber] = -1; // Change element in array with the number representing each symbol
         } else {
-            choice.textContent = 'X'
+            choice.innerHTML = xSvg;
             gameBoard.gameArray[index.cellnumber] = 1;
         }
         

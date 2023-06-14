@@ -1,12 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;500;600;700;800;900&display=swap');
 
 *{
-    background-color: #14bdac;
     color: #242424;
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
     appearance: none;
+}
+
+body{
+    background-color: #14bdac;
 }
 
 main{
@@ -23,7 +26,7 @@ h1{
 input {
    background-color: white;
    border: 1px solid #f2ebd3;
-   border-radius: 15px;
+   border-radius: 8px;
    font-size: 18px;
    font-weight: 500;
    padding: 8px;
@@ -72,6 +75,10 @@ form{
     text-align: center;
 }
 
+.gameSection{
+    place-self: center;
+}
+
 .gameBoard{
     display: grid;
     grid-template-columns: repeat(3, 150px);
@@ -84,26 +91,64 @@ form{
 }
 
 .borderBottom{
-    border-bottom: 0.2em solid black;
+    border-bottom: 1rem solid #0da192;
 }
 
 .borderRight{
-    border-right: 0.2em solid black;
+    border-right: 1rem solid  #0da192;
 }
 
 .scoreBoard{
     display: flex;
-    padding: 10px;
+    padding: 35px;
+    text-align: right;
 }
 
 .p1Points, .p2Points{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 5px rgba(0,0,0,.16);
+    font-size: 24px;
     margin: 0 10px;
+    border-radius: 8px;
+    outline: none;
+    line-height: 20px;
+    padding: 7px 24px;
+    width: 8rem;
 }
-/*
+
+.svgScore{
+    float: left;
+}
+
+.svgScore{
+    height: 16px;
+}
+
+.svgImg{
+    fill: none;
+    stroke: black;
+    stroke-width: 16px;
+}
+
 .gameSection{
-    visibility: hidden;
+    display: none;
+    position: absolute;
+    top: 10rem;
 }
 
 .gameConfig{
-    visibility: visible;
+    display: block;
+}
+
+svg{
+    height: 76px;
+}
+
+.xSvg{
+    stroke: rgb(84, 84, 84);
+}
+
+.oSvg{
+    stroke: rgb(242, 235, 211);
 }
