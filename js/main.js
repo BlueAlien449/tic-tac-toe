@@ -1,5 +1,5 @@
-const Player = (name, wins) => {
-    return {name, wins};
+const Player = (name, wins, symbol) => {
+    return {name, wins, symbol};
 };
 
 const playerCreation = (() => {
@@ -17,10 +17,10 @@ const playerCreation = (() => {
             return;
         }
 
-        firstPlayer = Player(playerOneInput.value, 0); // Create player objects with the value of the name fields
-        secondPlayer = Player(playerTwoInput.value, 0);
-        gameSection.style.display = 'block'
-        gameConfig.style.display = 'none'
+        firstPlayer = Player(playerOneInput.value, 0, 'x'); // Create player objects with the value of the name fields
+        secondPlayer = Player(playerTwoInput.value, 0, 'o');
+        gameSection.style.display = 'block';
+        gameConfig.style.display = 'none';
 
         e.preventDefault();
     };
@@ -33,7 +33,8 @@ const playerCreation = (() => {
     },
     get secondPlayer() {
         return secondPlayer;
-    }
+    },
+    gameSection,
     };
 })();
 
@@ -70,6 +71,8 @@ const displayController = (() => {
     gameCells.forEach(x => x.addEventListener('click', drawChoice));
 
     return{
+        oSvg,
+        xSvg,
         gameCells,
         get gameMoves() {
             return gameMoves;
@@ -82,6 +85,7 @@ const displayController = (() => {
 
 const gameBoard = (() => {
     let tieResult;
+    const gameBoardCells = document.querySelectorAll('.gameCell');
     const gameWinnerContainer = document.querySelector('.gameWinnerContainer');
     const xPoints = document.querySelector('.xPoints');
     const oPoints = document.querySelector('.oPoints');
@@ -104,11 +108,11 @@ const gameBoard = (() => {
                 if(gameArray[a] === 1){
                     playerCreation.firstPlayer.wins++;
                     drawScoreBoard();
-                    displayWinner(playerCreation.firstPlayer.name);
+                    displayWinner(playerCreation.firstPlayer);
                 } else if(gameArray[a] === -1){
                     playerCreation.secondPlayer.wins++;
                     drawScoreBoard();
-                    displayWinner(playerCreation.secondPlayer.name);
+                    displayWinner(playerCreation.secondPlayer);
                 }
                 return gameArray[a]; // Return the winning player symbol (1 for 'X' or -1 for 'O')
             }
@@ -130,13 +134,25 @@ const gameBoard = (() => {
 
     const displayWinner = (winner) => {
         const gameWinner = document.createElement('div');
+        const winnerSymbol = document.createElement('div');
+        winnerSymbol.classList.add('winnerSymbol');
         gameWinner.classList.add('gameWinner');
+
         if (tieResult){
             gameWinner.textContent = winner;
         } else {
-            gameWinner.textContent = `${winner} Winner!`;
-        }
-        gameWinnerContainer.append(gameWinner);
+            if (winner.symbol === 'x'){
+                winnerSymbol.innerHTML = displayController.xSvg;
+            } else if (winner.symbol === 'o'){
+                winnerSymbol.innerHTML = displayController.oSvg;
+            }
+            gameWinner.textContent = `${winner.name.toUpperCase()} WINS!`;
+
+        };
+        
+        gameWinnerContainer.append(winnerSymbol);
+        winnerSymbol.append(gameWinner);
+        gameBoardCells.forEach(x => x.style.display = 'none')
     };
 
     const restartRound = () => {
@@ -148,6 +164,7 @@ const gameBoard = (() => {
         for (let i = 0; i < gameArray.length; i++){
             gameArray[i] = arrayCounter++;
         }
+        gameBoardCells.forEach(x => x.style.display = 'grid')
     }
 
     gameWinnerContainer.addEventListener('click', restartRound);
@@ -158,6 +175,9 @@ const gameBoard = (() => {
         checkWinner,
         get tieResult() {
             return tieResult;
+        },
+        get winnerId() {
+            return winnerId;
         }
     };
 })();

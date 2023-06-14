@@ -83,6 +83,7 @@ form{
     display: grid;
     grid-template-columns: repeat(3, 150px);
     grid-template-rows: repeat(3, 150px);
+    place-content: center;
 }
 
 .gameCell{
@@ -113,16 +114,34 @@ form{
     border-radius: 8px;
     outline: none;
     line-height: 20px;
-    padding: 7px 24px;
+    padding: 10px 24px;
     width: 8rem;
+}
+
+.restartButton{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 5px rgba(0,0,0,.16);
+    font-size: 24px;
+    margin: 0 10px;
+    border-radius: 8px;
+    outline: none;
+    line-height: 20px;
+    padding: 7px 8px;
+    cursor: pointer;
+}
+
+.restartButton:hover{
+    background-color: rgb(236, 230, 230);
 }
 
 .svgScore{
     float: left;
+    height: 16px;
 }
 
-.svgScore{
-    height: 16px;
+.svgRestart{
+    height: 24px;
 }
 
 .svgImg{
@@ -151,4 +170,29 @@ svg{
 
 .oSvg{
     stroke: rgb(242, 235, 211);
+}
+
+.gameWinnerContainer{
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%, 0);
+    cursor: pointer;
+}
+
+.winnerSymbol{
+    display: grid;
+    place-items: center;
+}
+
+.gameWinner{
+    color: rgb(84, 84, 84);
+    font-size: 24px;
+    font-weight: 700;
+    margin: 5px 0 0 0;
+    text-align: center;
+}
+
+.winnerSymbol > svg{
+    height: 10rem;
 }
