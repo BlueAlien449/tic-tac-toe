@@ -21,7 +21,9 @@ const playerCreation = (() => {
         secondPlayer = Player(playerTwoInput.value, 0, 'o');
         gameSection.style.display = 'block';
         gameConfig.style.display = 'none';
-
+        displayController.p1Points.classList.add('active');
+        displayController.playerTurn.textContent = `${firstPlayer.name}'s turn`;
+        displayController.scoreBoard.append(displayController.playerTurn);
         e.preventDefault();
     };
 
@@ -44,6 +46,11 @@ const displayController = (() => {
     const xSvg = '<svg viewBox="0 0 128 128"><path class="svgImg xSvg" d="M16,16L112,112"></path><path class="svgImg xSvg" d="M112,16L16,112"></path></svg>';
     const oSvg = '<svg viewBox="0 0 128 128"><path class="svgImg oSvg" d="M64,16A48,48 0 1,0 64,112A48,48 0 1,0 64,16"></path></svg>';
     const gameCells = document.querySelectorAll('.gameCell');
+    const p1Points = document.querySelector('.p1Points');
+    const p2Points = document.querySelector('.p2Points');
+    const scoreBoard = document.querySelector('.scoreBoard');
+    const playerTurn = document.createElement('div');
+    playerTurn.classList.add('playerTurn');
 
     const drawChoice = (e) => {
         if (gameBoard.gameWinnerContainer.hasChildNodes()) return;
@@ -58,13 +65,21 @@ const displayController = (() => {
 
         if(gameMoves % 2){ // Check if the counter is even or odd as it's a turn-based game mode
             choice.innerHTML = oSvg;
+            p2Points.classList.remove('active');
+            p1Points.classList.add('active');
+            playerTurn.textContent = `${playerCreation.firstPlayer.name}'s turn`
             gameBoard.gameArray[index.cellnumber] = -1; // Change element in array with the number representing each symbol
         } else {
+
+            p1Points.classList.remove('active');
+            p2Points.classList.add('active');
+            playerTurn.textContent = `${playerCreation.secondPlayer.name}'s turn`
             choice.innerHTML = xSvg;
             gameBoard.gameArray[index.cellnumber] = 1;
         }
         
         e.target.appendChild(choice);
+        scoreBoard.append(playerTurn);
         gameMoves++;
         gameBoard.checkWinner();
     };
@@ -75,6 +90,10 @@ const displayController = (() => {
         oSvg,
         xSvg,
         gameCells,
+        p1Points,
+        p2Points,
+        playerTurn,
+        scoreBoard,
         get gameMoves() {
             return gameMoves;
           },
@@ -87,7 +106,6 @@ const displayController = (() => {
 const gameBoard = (() => {
     let tieResult;
     const clearButton = document.querySelector('.restartButton');
-    const gameBoardCells = document.querySelectorAll('.gameCell');
     const gameWinnerContainer = document.querySelector('.gameWinnerContainer');
     const xPoints = document.querySelector('.xPoints');
     const oPoints = document.querySelector('.oPoints');
@@ -121,7 +139,7 @@ const gameBoard = (() => {
         }
         if (displayController.gameMoves === 9) { // Check if it's a tie
             tieResult = true;
-            displayWinner("It's a tie!");
+            displayWinner("IT'S A TIE!");
           }
     };
 
@@ -137,11 +155,15 @@ const gameBoard = (() => {
     const displayWinner = (winner) => {
         const gameWinner = document.createElement('div');
         const winnerSymbol = document.createElement('div');
+        const tieSymbol = document.createElement('div');
+        tieSymbol.classList.add('tieSymbol');
         winnerSymbol.classList.add('winnerSymbol');
         gameWinner.classList.add('gameWinner');
 
         if (tieResult){
+            tieSymbol.innerHTML = displayController.xSvg + displayController.oSvg;
             gameWinner.textContent = winner;
+            winnerSymbol.append(tieSymbol);
         } else {
             if (winner.symbol === 'x'){
                 winnerSymbol.innerHTML = displayController.xSvg;
@@ -151,10 +173,10 @@ const gameBoard = (() => {
             gameWinner.textContent = `${winner.name.toUpperCase()} WINS!`;
 
         };
-        
+        displayController.playerTurn.textContent = '';
         gameWinnerContainer.append(winnerSymbol);
         winnerSymbol.append(gameWinner);
-        gameBoardCells.forEach(x => x.style.display = 'none')
+        displayController.gameCells.forEach(x => x.style.display = 'none')
     };
 
     const restartRound = () => {
@@ -164,11 +186,14 @@ const gameBoard = (() => {
         displayController.gameCells.forEach(x => x.textContent = '');
         if(gameWinnerContainer.hasChildNodes()){
             gameWinnerContainer.removeChild(gameWinnerContainer.firstChild);
-        }
+        };
         for (let i = 0; i < gameArray.length; i++){
             gameArray[i] = arrayCounter++;
-        }
-        gameBoardCells.forEach(x => x.style.display = 'grid')
+        };
+        displayController.gameCells.forEach(x => x.style.display = 'grid');
+        displayController.playerTurn.textContent = `${playerCreation.firstPlayer.name}'s turn`;
+        displayController.p1Points.classList.add('active');
+        displayController.p2Points.classList.remove('active');
     };
 
     gameWinnerContainer.addEventListener('click', restartRound);

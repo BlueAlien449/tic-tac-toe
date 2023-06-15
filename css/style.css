@@ -60,6 +60,7 @@ form > button:hover{
 }
 
 label {
+    margin: 0 0 8px 0;
     font-size: 20px;
     font-weight: 600;
 }
@@ -101,12 +102,17 @@ form{
 
 .scoreBoard{
     display: flex;
-    padding: 35px;
+    flex-direction: column;
+    padding: 35px 35px 20px;
     text-align: right;
+    background-color: white;
+    border-radius: 8px;
+    margin: 0 0 50px 0;
 }
 
 .p1Points, .p2Points{
     background-color: white;
+    border: 1px solid #dadce0;
     border-radius: 5px;
     box-shadow: 0 4px 5px rgba(0,0,0,.16);
     font-size: 24px;
@@ -116,6 +122,11 @@ form{
     line-height: 20px;
     padding: 10px 24px;
     width: 8rem;
+}
+
+.active{
+    border-bottom: 2px solid transparent;
+    border-bottom-color: #14bdac;
 }
 
 .restartButton{
@@ -195,4 +206,23 @@ svg{
 
 .winnerSymbol > svg{
     height: 10rem;
+}
+
+.tieSymbol{
+    font-size: 24px;
+    font-weight: 700;
+    width: 20rem;
+}
+
+.tieSymbol > svg{
+    height: 10rem;
+}
+
+.playerTurn{
+    margin: 25px 0 0 0;
+    text-align: center;
+}
+
+.gameStats{
+    display: flex;
 }
